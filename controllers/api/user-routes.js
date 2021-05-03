@@ -1,20 +1,12 @@
 // Dependencies
-// Express.js connection
 const router = require('express').Router();
-// User, Post, Vote models
 const { User, Post, Comment } = require('../../models');
-// Express Session for the session data
 const session = require('express-session');
-// Authorization Helper
 const withAuth = require('../../utils/auth');
-// Sequelize store to save the session so the user can remain logged in
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Routes
-
-// GET /api/users
 router.get('/', (req, res) => {
-    // Access our User model and run .findAll() method
     User.findAll({
         attributes: { exclude: ['password'] }
     })
@@ -25,7 +17,6 @@ router.get('/', (req, res) => {
       });
   });
 
-// GET /api/users/1
 router.get('/:id', (req, res) => {
     User.findOne({
         attributes: { exclude: ['password']},
@@ -61,7 +52,7 @@ router.get('/:id', (req, res) => {
       });
   });
 
-// POST /api/users
+// Posting
 router.post('/', (req, res) => {
     User.create({
       username: req.body.username,
@@ -82,9 +73,6 @@ router.post('/', (req, res) => {
       });
     });
   });
-
-  // LOGIN
-  router.post('/login', (req, res) => {
     User.findOne({
       where: {
         email: req.body.email
@@ -103,7 +91,6 @@ router.post('/', (req, res) => {
       }
   
       req.session.save(() => {
-        // declare session variables
         req.session.user_id = dbUserData.id;
         req.session.username = dbUserData.username;
         req.session.twitter = dbUserData.twitter;
@@ -113,8 +100,6 @@ router.post('/', (req, res) => {
         res.json({ user: dbUserData, message: 'Log In Succeccsful' });
       });
     });
-  });
-
 
   router.post('/logout', (req, res) => {
     if (req.session.loggedIn) {
@@ -127,8 +112,7 @@ router.post('/', (req, res) => {
     }
   });
 
-// PUT /api/users/1
-router.put('/:id', withAuth, (req, res) => {
+  router.put('/:id', withAuth, (req, res) => {
     User.update(req.body, {
         individualHooks: true,
         where: {
@@ -148,7 +132,6 @@ router.put('/:id', withAuth, (req, res) => {
       });
   });
 
-// DELETE /api/users/1
 router.delete('/:id', withAuth, (req, res) => {
     User.destroy({
       where: {
