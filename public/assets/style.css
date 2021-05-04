@@ -1,5 +1,5 @@
 :root {
-    --primary: #ccdad1;
+    --primary: #989992;
     --secondary: #dce9d5;
     --tertiary: #788585;
     --light-dark: #a1a0a1;
@@ -15,10 +15,10 @@ body {
     background-color: var(--primary);
     margin: 0;
     padding: 0;
-    font-family: "IBM Plex Sans", sans-serif;
+    font-family: "Times New Roman", Times, serif;
     color: var(--dark);
     line-height: 1.5;
-    font-size: 24px;
+    font-size: 26px;
 }
 
 h1,
