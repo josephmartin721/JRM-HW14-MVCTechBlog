@@ -3,7 +3,6 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const bcrypt = require('bcrypt');
 const path = require('path');
-const routes = require('./controllers');
 const mysql2 = require('mysql2');
 const routes = require('./routes');
 const sequelize = require('./config/connection');
