@@ -32,21 +32,19 @@ router.get('/', (req, res) => {
 
 // Retrieve post by id 
 router.get('/:id', (req, res) => {
-    Post.findOne({
-      where: {
-        id: req.params.id
+  Post.findOne({
+    where: {
+      id: req.params.id
+    },      
+    attributes: ['id','title','created_at','post_content'
+    ],
+    include: [
+      {
+        model: User,          attributes: ['username']
       },
-      attributes: ['id','title','created_at','post_content'
-      ],
-      include: [
-        {
-          model: User,
-          attributes: ['username']
-        },
-        {
-          model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-          include: {
+      {
+        model: Comment,
+        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],          include: {
             model: User,
             attributes: ['username']
           }
@@ -55,7 +53,7 @@ router.get('/:id', (req, res) => {
     })
       .then(dbPostData => {
         if (!dbPostData) {
-          res.status(404).json({ message: 'No post includes this id' });
+          res.status(404).json({ message: 'No matching post id' });
           return;
         }
         res.json(dbPostData);
@@ -93,7 +91,7 @@ router.put('/:id', withAuth, (req, res) => {
       })
       .then(dbPostData => {
         if (!dbPostData) {
-          res.status(404).json({ message: 'No post includes this id' });
+          res.status(404).json({ message: 'No matching post id' });
           return;
         }
         res.json(dbPostData);
@@ -113,7 +111,7 @@ router.delete('/:id', withAuth, (req, res) => {
     })
       .then(dbPostData => {
         if (!dbPostData) {
-          res.status(404).json({ message: 'No post includes this id' });
+          res.status(404).json({ message: 'No matching post id' });
           return;
         }
         res.json(dbPostData);

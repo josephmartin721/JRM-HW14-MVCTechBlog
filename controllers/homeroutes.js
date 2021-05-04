@@ -63,7 +63,7 @@ router.get('/post/:id', (req, res) => {
         .then(dbPostData => {
             if (!dbPostData) {
                 res.status(404).json({
-                    message: 'No post contains this id'
+                    message: 'No matching post id'
                 });
                 return;
             }
